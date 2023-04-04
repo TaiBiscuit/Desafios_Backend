@@ -1,3 +1,4 @@
+
 class ProductManager {
 
     static lastId = 0;
@@ -34,7 +35,7 @@ class ProductManager {
     getProductById(idPassed) {
         const checkId = this.products.find(product => product.id === idPassed);
         if(checkId === undefined){
-            console.log("Not found")
+            return "Not found"
         }
         console.log(checkId)
     }
