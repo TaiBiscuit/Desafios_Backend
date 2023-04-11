@@ -25,7 +25,6 @@ class ProductManager {
         if(!this.products.some(product => product.code === newProduct.code )) {
             this.products.push(newProduct);
             const archiveChain = JSON.stringify(this.products);
-            console.log(archiveChain)
             fs.writeFileSync(this.path, archiveChain);
         } else {
             console.log('The product already exists')
@@ -34,17 +33,19 @@ class ProductManager {
 
     getProduct = async () => {
         const products = await fs.promises.readFile(this.path, 'utf-8');
-        console.log(products)
-        return JSON.parse(products)
+        const productJSON = JSON.parse(products);
+        return productJSON;   
     }
 
-    getProductById(idPassed) {
-        const checkId = this.products.find(product => product.id === idPassed);
+    getProductById = async (idPassed) => {
+        const products = await fs.promises.readFile(this.path, 'utf-8')
+        const productJSON = JSON.parse(products);
+        const checkId = productJSON.find(product => product.id == idPassed);
         if(checkId === undefined){
             return 'Not Found'
+        } else {
+            return checkId
         }
-        console.log(checkId)
-        return checkId
     }
 
     updateProduct = async (idPassed, field, infoToChange) =>{
@@ -69,4 +70,14 @@ class ProductManager {
     }
 }
 
-const manager = new ProductManager('./products.json');
+module.exports = ProductManager;
+
+
+
+
+
+
+
+
+
+
