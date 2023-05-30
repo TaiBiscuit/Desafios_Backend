@@ -1,0 +1,19 @@
+[{
+  "_id": {
+    "$oid": "64543106bcdb7e9e8d95914c"
+  },
+  "id": 1,
+  "firstName": "Italo",
+  "lastName": "Ferrero",
+  "userName": "iferrero",
+  "password": "6ca13d52ca70c883e0f0bb101e425a89e8624de51db2d2392593af6a84118090"
+},{
+  "_id": {
+    "$oid": "64543106bcdb7e9e8d95914d"
+  },
+  "id": 2,
+  "firstName": "Carlos",
+  "lastName": "Perren",
+  "userName": "cperren",
+  "password": "6ca13d52ca70c883e0f0bb101e425a89e8624de51db2d2392593af6a84118090"
+}]
