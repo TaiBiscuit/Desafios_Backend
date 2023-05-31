@@ -7,8 +7,8 @@ const collection = 'users';
 const schema = new mongoose.Schema({
     firstName: String,
     lastName: String,
-    userName: String,
     password: String,
+    userName: String,
     id: String
 });
 
