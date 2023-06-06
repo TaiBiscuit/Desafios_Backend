@@ -20,6 +20,7 @@
 </div>
 
 <div class="row justify-content-center">
+    <h2>¡Bienvenido {{userAcc}}: {{userName}}!</h2>
     <h2 class="mt-4 mb-4"><b>Listado de productos en existencia ({{pagination.totalDocs}} en total)</b></h2>
 
     <div class="col-md-4 col-xs-12">
@@ -57,7 +58,7 @@
     <div class="col-md-4 col-xs-12 p-3" style="background-color: #e1e1e1;">
     {{#each products}}
         <div class="card mb-4">
-            <img src="{{this.thumbnail}}" class="card-img-top" alt="Vista previa producto" title="Vista previa producto">
+            <img src="{{this.image}}" class="card-img-top" alt="Vista previa producto" title="Vista previa producto">
                     
             <div class="card-body">
                 <h5 class="card-title">{{this.title}}</h5>
@@ -74,22 +75,9 @@
 <script>
     const socket = io('ws://localhost:3000');
 
-    socket.on('connect', () => { // Escuchamos el evento connect para detectar cuándo logramos conectar al servidor
-        // Escuchamos por el evento server_confirm desde el servidor
+    socket.on('connect', () => {
         socket.on('server_confirm', (data) => {
             console.log("El servidor ha confirmado la conexión");
-            console.log(data);
-        });
-        
-        // Se recibe una notificación de este evento desde un broadcast del servidor
-        // a pesar que ha sido generado desde esta misma plantilla en la función addToCart
-        socket.on('product_added_to_cart', (data) => {
-            console.log('Se disparó el evento product_added_to_cart con el id', data);
         });
     })
-
-    const addToCart = (product_id) => {
-        console.log('Agregar al carrito producto', product_id);
-        socket.emit('new_product_in_cart', product_id);
-    }
 </script>

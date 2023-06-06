@@ -9,12 +9,6 @@ class UserManager {
         this.statusMsg = "inicializado";
     }
 
-    static requiredFields = ['firstName', 'lastName', 'userName', 'password'];
-
-    static #verifyRequiredFields = (obj) => {
-        return UserManager.requiredFields.every(field => Object.prototype.hasOwnProperty.call(obj, field) && obj[field] !== null);
-    }
-
     static #generarSha256 = (pass) => {
         return crypto.createHash('sha256').update(pass).digest('hex');
     }
@@ -33,15 +27,9 @@ class UserManager {
 
     addUser = async (user) => {
         try {
-            if (!Users.#objEmpty(user) && UserManager.#verifyRequiredFields(user)) {
-                user.password = UserManager.#generarSha256(user.password);
-                const process = await userModel.create(user);
-                this.status = 1;
-                this.statusMsg = "Usuario registrado en bbdd";
-            } else {
-                this.status = -1;
-                this.statusMsg = `Faltan campos obligatorios (${UserManager.requiredFields.join(', ')})`;
-            }
+            console.log(user)
+            const process = await userModel.create(user);
+            return process
         } catch (err) {
             this.status = -1;
             this.statusMsg = `AddUser: ${err}`;
@@ -100,9 +88,10 @@ class UserManager {
         }
     }
 
-    validateUser = async (user, pass) => {
+    validateUser = async (us, pass) => {
         try {
-            return await userModel.findOne({ userName: user, password: crypto.createHash('sha256').update(pass).digest('hex')});
+            const user = await userModel.findOne({ userName: us, password: pass}); 
+            return user
         } catch (err) {
             this.status = `validateUser: ${err}`;
         }
