@@ -1,0 +1,48 @@
+<style>
+    form {
+        background: #e1e1e1;
+        border-radius: 1em;
+    }
+</style>
+
+<div class="row justify-content-md-center">
+    <div class="col-md-3 col-xs-12 mt-2">
+        <h2 class="mb-4"><b>Register User</b></h2>
+        <form class="p-4" action="http://localhost:3000/submit" method="post">
+
+            <div class="form-group mb-4">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" id="first_name" name="firstName"
+                    placeholder="Nicolas" required="required">
+            </div>   
+            <div class="form-group mb-4">
+                <label for="lastName">Last Name</label>
+                <input type="text" class="form-control" id="last_name" name="lastName" placeholder="Campos" required="required">
+            </div> 
+
+
+            <div class="form-group mb-4">
+                <label for="userName">Email</label>
+                <input type="email" class="form-control" id="login_email" name="userName" aria-describedby="emailHelp"
+                    placeholder="Email" required="required">
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="login_password" name="password" required="required">
+            </div>
+
+            <div class="form-group mb-4">
+                <label class="form-check-label" for="exampleCheck1">Sign in</label>
+            </div>
+            <button type="submit" class="btn btn-success"><i class="fas fa-sign-in-alt"></i>Enter</button>        
+            {{#if sessionInfo.errorMessage }}
+            <div class="alert alert-danger mt-4" role="alert">{{sessionInfo.errorMessage}}</div>
+            {{/if}}
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('login_email').focus();
+</script>
