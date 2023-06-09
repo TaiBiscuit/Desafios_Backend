@@ -9,6 +9,7 @@ const manager = new ProductManager();
 const loginRouter = Router();
 
 const mainRoutes = (io, store, PAGE_URL, LIMIT) => {
+    
     loginRouter.get('/',async (req, res) => {
         if(req.session.userValidated) {
 
@@ -80,7 +81,7 @@ const mainRoutes = (io, store, PAGE_URL, LIMIT) => {
     loginRouter.get('/logout', async (req, res) => {
         req.session.userValidated = req.sessionStore.userValidated = false,
         req.session.destroy()
-        res.redirect(PAGE_URL);
+        res.redirect('/');
     });
 
 

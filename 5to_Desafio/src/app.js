@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import express from 'express';
 import mongoose from 'mongoose';
 import http from 'http';
@@ -5,12 +6,11 @@ import { engine } from 'express-handlebars';
 import { Server } from 'socket.io';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
+import passport from 'passport';
 
-// import FileStore from 'session-file-store';
-// const FILESTORAGE = FileStore(session);
-
-import MongoStore from 'connect-mongo';
+ import MongoStore from 'connect-mongo'; 
 import mainRoutes from './routes/login.routes.js';
+import sessionRoutes from './routes/sessions.routes.js';
 
 import { __dirname } from './utils.js';
 const PORT = 3000;
@@ -22,16 +22,30 @@ const server = http.createServer(app);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+
+//COOKIES
+
 app.use(cookieParser('abcd1234'));
 
-const store = MongoStore.create({mongoUrl: 'mongodb+srv://Tai:a6CF6dUQvLXPlaNk@clustertest.pmqah19.mongodb.net/coderLoginTest', mongoOptions: {useNewUrlParser: true, useUnifiedTopology: true}, ttl: 60 });
+
+
+
+//SESSION
+ const store = MongoStore.create({mongoUrl: 'mongodb+srv://Tai:a6CF6dUQvLXPlaNk@clustertest.pmqah19.mongodb.net/coderLoginTest', mongoOptions: {useNewUrlParser: true, useUnifiedTopology: true}, ttl: 60 }); 
 
 app.use(session({
-    store: store,
+/*     store: store, */
     secret: 'abcd1234',
     resave: false,
     saveUninitialized: false
 }));
+
+//AUTH
+
+app.use(passport.initialize());
+
+
 
 
 const io  = new Server(server, {
@@ -47,7 +61,16 @@ app.use('/public', express.static(`${__dirname}/public`));
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', `${__dirname}/views`);
-app.use('/', mainRoutes(io, store, PAGE_URL, LIMIT))
+
+
+//ROUTES
+
+app.use('/', mainRoutes(io, store, PAGE_URL, LIMIT));
+app.use('/api/sessions', sessionRoutes());
+
+
+
+//WEBSOCKET
 
 io.on('connection', (socket) => { 
     console.log(`Cliente conectado (${socket.id})`);
