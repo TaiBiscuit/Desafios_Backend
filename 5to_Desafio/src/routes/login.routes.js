@@ -1,6 +1,7 @@
 import express from 'express'
 import ProductManager from '../api/products/ProductManager.js';
 import UserManager from '../api/users/UserManager.js';
+import { generateToken, authToken } from "../auth/jwt.config.js";
 import { Router } from 'express';
 
 const userManager = new UserManager();
@@ -85,6 +86,11 @@ const mainRoutes = (io, store, PAGE_URL, LIMIT) => {
     });
 
 
+    //TOKEN
+
+    loginRouter.get('/tokenonly', async (req, res) => {
+
+    })
 
     return loginRouter
 }
